@@ -15,7 +15,7 @@ A simple web-based calculator that computes the sum of **odd numbers** in a give
 
 ## 📸 Preview
 
-![Screenshot](screenshot.png) <!-- Ganti dengan gambar hasil tampilan jika tersedia -->
+![Screenshot](Screenshot Odd Number Sum Calculator.png)
 
 ---
 
