@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Odd Sum Calculator</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1IiBoZWlnaHQ9IjUiPgo8cmVjdCB3aWR0aD0iNSIgaGVpZ2h0PSI1IiBmaWxsPSIjMDAwIj48L3JlY3Q+CjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNmZmYiPjwvcmVjdD4KPC9zdmc+');
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        .calculator {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            backdrop-filter: blur(10px);
+            position: relative;
+            z-index: 1;
+        }
+
+        .calculator::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            z-index: -1;
+            border-radius: 22px;
+            opacity: 0.5;
+            filter: blur(10px);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            font-size: 24px;
+        }
+
+        .description {
+            text-align: center;
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .instructions {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #555;
+        }
+
+        .instructions h3 {
+            margin: 0 0 10px 0;
+            color: #2c3e50;
+            font-size: 16px;
+        }
+
+        .instructions ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .instructions li {
+            margin-bottom: 5px;
+        }
+
+        input {
+            padding: 12px;
+            margin: 8px 0;
+            width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+            background: rgba(255, 255, 255, 0.8);
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #4ecdc4;
+            box-shadow: 0 0 0 2px rgba(78, 205, 196, 0.2);
+        }
+
+        button {
+            margin-top: 15px;
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+            text-align: center;
+            color: #2c3e50;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .success {
+            color: #27ae60;
+        }
+
+        .error {
+            color: #e74c3c;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="calculator">
+    <h2>Odd Number Sum Calculator</h2>
+    <div class="description">
+        Calculate the sum of all odd numbers between two given numbers
+    </div>
+    
+    <div class="instructions">
+        <h3>How to use:</h3>
+        <ul>
+            <li>Enter the minimum number in the first field</li>
+            <li>Enter the maximum number in the second field</li>
+            <li>Click "Calculate" to get the sum of all odd numbers in that range</li>
+            <li>The result will be displayed below the button</li>
+        </ul>
+    </div>
+
+    <form id="oddForm">
+        <label for="min">Minimum Number:</label>
+        <input type="number" id="min" name="min" required placeholder="Enter minimum number">
+
+        <label for="max">Maximum Number:</label>
+        <input type="number" id="max" name="max" required placeholder="Enter maximum number">
+
+        <button type="submit">Calculate Sum</button>
+    </form>
+    <div id="result"></div>
+</div>
+
+<script>
+    function sumOfOdds(min, max) {
+        let sum = 0;
+        for (let i = min; i <= max; i++) {
+            if (i % 2 !== 0) {
+                sum += i;
+            }
+        }
+        return sum;
+    }
+
+    document.getElementById("oddForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+        const min = parseInt(document.getElementById("min").value);
+        const max = parseInt(document.getElementById("max").value);
+        const resultDiv = document.getElementById("result");
+
+        if (isNaN(min) || isNaN(max)) {
+            resultDiv.className = "error";
+            resultDiv.innerText = "Please enter valid numbers.";
+            return;
+        }
+
+        if (min > max) {
+            resultDiv.className = "error";
+            resultDiv.innerText = "Minimum number should be less than or equal to maximum number.";
+            return;
+        }
+
+        const result = sumOfOdds(min, max);
+        resultDiv.className = "success";
+        resultDiv.innerText = `The sum of odd numbers between ${min} and ${max} is: ${result}`;
+    });
+</script>
+
+</body>
+</html>
